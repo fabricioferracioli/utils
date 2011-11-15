@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Copyright 2007-2010, Cake Development Corporation (http://cakedc.com)
  *
@@ -187,7 +187,7 @@ class SoftDeleteBehavior extends ModelBehavior {
  */
 	public function softDelete(&$model, $active) {
 		if (is_null($active)) {
-			return !empty(isset($this->runtime[$model->alias])) ? @$this->runtime[$model->alias] : null;
+			return !empty($this->runtime[$model->alias]) ? @$this->runtime[$model->alias] : null;
 		}
 
 
@@ -207,7 +207,7 @@ class SoftDeleteBehavior extends ModelBehavior {
     public function purgeDeletedCount(&$model, $expiration = '-90 days') {
         $this->softDelete($model, false);
         return $model->find('count', array(
-			'conditions' => $this->_purgeDeletedConditions($model, $expiration), 
+			'conditions' => $this->_purgeDeletedConditions($model, $expiration),
 			'recursive' => -1));
     }
 
@@ -221,8 +221,8 @@ class SoftDeleteBehavior extends ModelBehavior {
     public function purgeDeleted(&$model, $expiration = '-90 days') {
         $this->softDelete($model, false);
         $records = $model->find('all', array(
-			'conditions' => $this->_purgeDeletedConditions($model, $expiration), 
-			'fields' => array($model->primaryKey), 
+			'conditions' => $this->_purgeDeletedConditions($model, $expiration),
+			'fields' => array($model->primaryKey),
 			'recursive' => -1));
         if ($records) {
             foreach ($records as $record) {
@@ -297,7 +297,7 @@ class SoftDeleteBehavior extends ModelBehavior {
 				}
 
 				foreach ($model->{$parentModel}->{$assocType} as $assoc => $assocConfig) {
-					$modelName = !empty(empty($assocConfig['className'])) ? $assoc : @$assocConfig['className'];
+					$modelName = !empty($assocConfig['className']) ? $assoc : @$assocConfig['className'];
 					if ($model->alias != $modelName) {
 						continue;
 					}
